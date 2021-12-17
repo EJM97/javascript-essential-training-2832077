@@ -5,22 +5,15 @@
  * - Set the inner HTML of the article to the existing HTML output provided in const content.
  * - Append each backpack object to the <main> element.
  */
-import Backpack from "./components/Backpack.js";
+// import Backpack from "./components/Backpack.js";
+import backpackObjectArray from "./components/data.js";
 
-const everydayPack = new Backpack(
-  "pack01",
-  "Everyday Backpack",
-  30,
-  "grey",
-  15,
-  26,
-  26,
-  false,
-  "December 5, 2018 15:00:00 PST",
-  "../assets/images/everyday.svg"
-);
+// console.log(backpackObjectArray[1]);
 
-const content = `
+const mappedArticleArray = backpackObjectArray.map((everydayPack) => {
+  const article = document.createElement("article");
+
+  const content = `
     <figure class="backpack__image">
       <img src=${everydayPack.image} alt="" />
     </figure>
@@ -45,15 +38,16 @@ const content = `
       <li class="feature backpack__lid">Lid status:<span> ${
         everydayPack.lidOpen ? "open" : "closed"
       }</span></li>
-    </ul>
-  
+    </ul> 
 `;
+  article.setAttribute("id", `${everydayPack.id}`);
+  article.classList.add("backpack");
+  article.innerHTML = content;
+  return article;
+});
 
 const main = document.querySelector(".maincontent");
-
-const newArticle = document.createElement("article");
-newArticle.classList.add("backpack");
-newArticle.setAttribute("id", "everyday");
-newArticle.innerHTML = content;
-
-main.append(newArticle);
+mappedArticleArray.forEach((newArticle) => {
+  main.append(newArticle);
+  console.log(newArticle);
+});
